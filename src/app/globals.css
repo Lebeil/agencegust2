@@ -70,12 +70,43 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(-66.666%);
   }
 }
 
 .animate-scroll-left {
-  animation: scroll-left 30s linear infinite;
+  animation: scroll-left 45s linear infinite;
+  /* Durée ajustée pour 3 répétitions : 45s = 15s par cycle */
+  /* GPU acceleration pour fluidité */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  /* Éviter les coupures */
+  animation-fill-mode: forwards;
+}
+
+/* Optimisations pour les logos */
+.logo-banner-image {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  /* Éviter les coupures */
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+/* Améliorer les performances du rendu */
+.logo-banner-container {
+  contain: layout style paint;
+  will-change: transform;
+  /* Éviter les débordements et coupures */
+  width: calc(100% + 200px);
+  margin-left: -100px;
+  margin-right: -100px;
+  overflow: visible;
+  /* Optimisations pour éviter les coupures */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 @font-face {
@@ -106,6 +137,34 @@ body {
   position: relative;
   font-family: "Avenir Next", -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 400;
+}
+
+/* Permettre le scroll horizontal pour les pages avec sections horizontales */
+body.horizontal-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* Wrapper pour les pages avec scroll horizontal */
+.horizontal-page-wrapper {
+  width: 100vw;
+  height: 100vh;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+}
+
+/* Style pour la page d'accueil avec scroll horizontal */
+.home-horizontal-scroll {
+  width: 100vw;
+  height: 100vh;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  z-index: 1; /* S'assurer qu'il est au-dessus des autres éléments */
 }
 
 html {
@@ -263,4 +322,125 @@ ol, ul {
 
 section[data-slice-variation="imageSlider"]:last-child > div {
   padding-bottom: 12rem;
+}
+
+/* Styles pour le scroll horizontal */
+.horizontal-scroll-container {
+  display: flex;
+  width: 200vw; /* 2 sections de 100vw chacune */
+  height: 100vh;
+  overflow: visible; /* Important: ne pas masquer l'overflow */
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* Smooth scroll sur iOS */
+  position: relative;
+}
+
+/* Chaque section prend 100vw */
+.horizontal-scroll-container > div {
+  flex: 0 0 100vw;
+  scroll-snap-align: start;
+  min-width: 100vw; /* Assurer la largeur minimale */
+  position: relative;
+}
+
+/* Masquer la scrollbar mais garder la fonctionnalité */
+.horizontal-scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Indicateurs pour le scroll horizontal */
+.horizontal-scroll-indicator {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* S'assurer que la navbar n'interfère pas avec le scroll horizontal */
+body.horizontal-scroll .navbar {
+  position: fixed !important;
+  z-index: 1001;
+}
+
+/* Ajuster le z-index du bouton Prendre RDV */
+body.horizontal-scroll #prendre-rdv {
+  z-index: 1002;
+}
+
+/* Debug styles pour vérifier le scroll horizontal */
+.debug-horizontal-scroll .horizontal-scroll-container {
+  outline: 2px solid red;
+}
+
+.debug-horizontal-scroll .horizontal-scroll-container > div {
+  outline: 2px solid blue;
+}
+
+/* Optimisation pour les éléments individuels */
+.logo-banner-item {
+  flex-shrink: 0;
+  min-width: 0;
+  position: relative;
+}
+
+/* Styles pour améliorer l'expérience sur mobile */
+@media (max-width: 768px) {
+  .horizontal-scroll-indicator {
+    bottom: 1rem;
+  }
+
+  .scroll-dot {
+    width: 6px;
+    height: 6px;
+  }
+}
+
+.scroll-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.scroll-dot.active {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+/* Smooth scroll behavior */
+@media (prefers-reduced-motion: no-preference) {
+  .horizontal-scroll-container {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Support pour les trackpads */
+@supports (scroll-snap-type: x mandatory) {
+  .horizontal-scroll-container {
+    scroll-snap-type: x mandatory;
+  }
+
+  .horizontal-scroll-container > div {
+    scroll-snap-align: start;
+  }
 }

@@ -38,7 +38,7 @@ const Hero = ({ content }) => {
   }, [isSceneLoaded, isDesktop]);
 
   return (
-    <section>
+    <section data-section="hero">
       <div className="lg:hidden">
         <MainHeroMobile content={content} />
       </div>
