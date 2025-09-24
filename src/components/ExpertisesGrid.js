@@ -7,7 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 // - 1 carte centrale agrandie
 // - 4 cartes périphériques sur un arc
 // - Survol d'une carte: elle se déplace au centre, s'agrandit et lit la vidéo
-export default function ExpertisesGrid() {
+export default function ExpertisesGrid({ forceActiveIndex = null }) {
   const router = useRouter();
   const pathname = usePathname();
   const langPrefix = useMemo(() => {
@@ -23,6 +23,7 @@ export default function ExpertisesGrid() {
         description:
           "Des créateurs de contenus avec une communauté engagée, utilisés pour leur créativité, leur image et leur expérience.",
         video: "/assets/media/offres/influence16_9.mp4",
+        poster: "/images/gradiant_some.png",
       },
       {
         id: "celebrity",
@@ -30,6 +31,7 @@ export default function ExpertisesGrid() {
         description:
           "Accès aux célébrités pour vos campagnes, RSE, B2C et B2B.",
         video: "/assets/media/offres/open16_9.mp4",
+        poster: "/images/gradiant_open.png",
       },
       {
         id: "ugc",
@@ -37,6 +39,7 @@ export default function ExpertisesGrid() {
         description:
           "Campagnes UGC à grande échelle avec des contenus authentiques.",
         video: "/assets/media/offres/ugc16_9.mp4",
+        poster: "/images/gradiant_ugc.png",
       },
       {
         id: "social",
@@ -44,6 +47,7 @@ export default function ExpertisesGrid() {
         description:
           "Stratégie éditoriale, création et performance sur les plateformes.",
         video: "/assets/media/offres/some16_9.mp4",
+        poster: "/images/gradiant_some.png",
       },
       {
         id: "production",
@@ -51,6 +55,7 @@ export default function ExpertisesGrid() {
         description:
           "3D, stop‑motion, sound design… des contenus à la frontière du réel.",
         video: "/assets/media/offres/production16_9.mp4",
+        poster: "/images/gradiant_production.png",
       },
     ],
     []
@@ -59,6 +64,14 @@ export default function ExpertisesGrid() {
   const [activeId, setActiveId] = useState(cards[0].id);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [lockedId, setLockedId] = useState(null);
+
+  // Contrôle externe via les flèches
+  useEffect(() => {
+    if (forceActiveIndex !== null && forceActiveIndex >= 0 && forceActiveIndex < cards.length) {
+      setActiveId(cards[forceActiveIndex].id);
+    }
+  }, [forceActiveIndex, cards]);
+
   const linkById = useMemo(
     () => ({
       production: "/production",
@@ -74,12 +87,18 @@ export default function ExpertisesGrid() {
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    // Recharge et lit la vidéo du centre à chaque changement d'activeId
-    v.pause();
-    v.load();
-    const play = () => v.play().catch(() => {});
-    const t = setTimeout(play, 50);
-    return () => clearTimeout(t);
+    // Recharge et lit la vidéo du centre à chaque changement d'activeId - Safari compatible
+    try {
+      v.pause();
+      v.load();
+      const play = () => v.play().catch((error) => {
+        console.log('Central video play failed (Safari):', error);
+      });
+      const t = setTimeout(play, 100); // Délai plus long pour Safari
+      return () => clearTimeout(t);
+    } catch (error) {
+      console.log('Video control error (Safari):', error);
+    }
   }, [activeId]);
 
   // Positions fidèles à la maquette (gauche -> droite)
@@ -176,8 +195,11 @@ export default function ExpertisesGrid() {
                         muted
                         loop
                         playsInline
+                        webkitplaysinline="true"
+                        preload="metadata"
                       >
                         <source src={card.video} type="video/mp4" />
+                        <source src={card.video} type="video/webm" />
                       </video>
                     </div>
                   </div>
@@ -188,14 +210,13 @@ export default function ExpertisesGrid() {
                   <p className="text-white/70 text-[11px] leading-snug line-clamp-6">
                     {card.description}
                   </p>
-                  {/* Aperçu vidéo (image du flux) avec espace autour */}
+                  {/* Aperçu image statique - Safari compatible */}
                   <div className="mt-auto w-full px-3 pb-3">
-                    <video
-                      className="w-full h-24 object-cover rounded-xl"
-                      src={card.video}
-                      preload="metadata"
-                      muted
-                      playsInline
+                    <img
+                      className="w-full h-24 object-cover rounded-xl opacity-80"
+                      src={card.poster}
+                      alt={`Aperçu ${card.title}`}
+                      loading="lazy"
                     />
                   </div>
                 </div>
