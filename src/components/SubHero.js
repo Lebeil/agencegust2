@@ -1,6 +1,6 @@
 "use client"
-import { PrismicNextImage } from '@prismicio/next'
-import { PrismicRichText } from '@prismicio/react'
+import Image from 'next/image'
+import RichText from '@/components/RichText'
 
 const SubHero = ({ slice }) => {
 
@@ -31,14 +31,22 @@ const SubHero = ({ slice }) => {
                 <figure className="m-0 flex justify-center md:max-h-48">
                     {
                         slice.primary.media.kind === "image"
-                            ? <PrismicNextImage field={imageObj} className="w-auto object-contain" />
+                            ? (
+                                <Image
+                                  src={imageObj.url}
+                                  alt={imageObj.alt}
+                                  width={imageObj.dimensions.width}
+                                  height={imageObj.dimensions.height}
+                                  className="w-auto object-contain"
+                                />
+                              )
                             : <video src={slice.primary.media.url} autoPlay loop muted playsInline />
                     }
                 </figure>
 
                 <div className="lg:text-center">
-                    <PrismicRichText
-                        field={slice.primary.text}
+                    <RichText
+                        content={slice.primary.text}
                         components={{
                             heading2: ({ children }) => <h2 className="md:text-lg font-avenir-next font-semi-bold uppercase">{children}</h2>,
                             heading3: ({ children }) => <h3 className="md:text-lg font-avenir-next font-semi-bold uppercase">{children}</h3>,
@@ -69,15 +77,15 @@ const SubHero = ({ slice }) => {
                                         ${item.spread ? "col-span-2" : ""}
                                     `}
                         >
-                            <PrismicRichText
-                                field={item.heading}
+                            <RichText
+                                content={item.heading}
                                 components={{
                     heading2: ({ children }) => <h2 className="mb-4 text-2xl font-avenir-next font-semi-bold uppercase">{children}</h2>,
                     heading3: ({ children }) => <h3 className="mb-4 text-2xl font-avenir-next font-semi-bold uppercase">{children}</h3>
                                 }}
                             />
-                            <PrismicRichText
-                                field={item.body}
+                            <RichText
+                                content={item.body}
                                 components={{
                                     paragraph: ({ children }) => <p className="max-w-lg">{children}</p>,
                                     list: ({ children }) => <ul className="m-0 pl-4">{children}</ul>,

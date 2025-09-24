@@ -1,4 +1,4 @@
-import { PrismicRichText } from "@prismicio/react"
+import RichText from "@/components/RichText"
 import { IoIosArrowRoundForward, IoIosArrowRoundBack } from "react-icons/io"
 
 const SliceHeading = ({
@@ -50,8 +50,8 @@ const SliceHeading = ({
                             md:p-12 
                         "
                     >
-                        <PrismicRichText
-                            field={slice.primary.heading}
+                        <RichText
+                            content={slice.primary.heading}
                             components={{
                                 heading1: ({ children }) => (
                                     <h1

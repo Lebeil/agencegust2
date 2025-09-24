@@ -1,6 +1,6 @@
 "use client"
-import React, { useState } from 'react'
-import { PrismicRichText } from '@prismicio/react'
+import { useState } from 'react'
+import RichText from '@/components/RichText'
 import useViewport from '@/lib/hooks/useViewport'
 // import { MoreIcon } from './icons/MoreIcon'
 import expandableStyles from "@/styles/Expandable.module.css"
@@ -27,16 +27,15 @@ export const ExpandableRow = ({ item, slice }) => {
             {slice.variation === "default" && (
                 <div className="grid lg:grid-cols-2 lg:gap-8">
                     <div className="uppercase">
-                        <PrismicRichText
-                            key={item.id}
-                            field={item.heading}
+                        <RichText
+                            content={item.heading}
                             components={{ heading2: ({ children }) => <h2 className="text-2xl mb-[var(--tw-2)] font-bold md:text-4xl md:margin-0">{children}</h2> }}
                         />
                     </div>
 
                     <div>
-                        <PrismicRichText
-                            field={item.text}
+                        <RichText
+                            content={item.text}
                             components={{ paragraph: ({ children }) => <p className="margin-0 max-w-md">{children}</p> }}
                         />
                     </div>
@@ -46,9 +45,8 @@ export const ExpandableRow = ({ item, slice }) => {
             {slice.variation === "faq" && (
                 <div className={expandableStyles.expandableWrapper_variation}>
                     <div className="flex justify-between">
-                        <PrismicRichText
-                            key={item.id}
-                            field={item.question}
+                        <RichText
+                            content={item.question}
                             components={{
                                 heading3: ({ children }) => <h3 className="text-white/60 md:text-xl uppercase">{children}</h3>,
                                 heading4: ({ children }) => <h4 className="text-white/60 md:text-xl uppercase">{children}</h4>
@@ -56,8 +54,8 @@ export const ExpandableRow = ({ item, slice }) => {
                         />
                     </div>
                     <div>
-                        <PrismicRichText
-                            field={item.answer}
+                        <RichText
+                            content={item.answer}
                             components={{
                                 paragraph: ({ children }) => <p className="md:text-xl max-w-xl">{children}</p>
                             }}

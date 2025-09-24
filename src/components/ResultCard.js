@@ -1,4 +1,4 @@
-import { PrismicRichText } from "@prismicio/react"
+import RichText from "@/components/RichText"
 
 const ResultCard = ({ item }) => {
     return (
@@ -9,15 +9,15 @@ const ResultCard = ({ item }) => {
                 border-white border-2
             "
         >
-            <PrismicRichText
-                field={item.heading}
+            <RichText
+                content={item.heading}
                 components={{
                     heading2: ({ children }) => <h2 className="w-max text-2xl lg:text-4xl pb-2 font-bold uppercase border-b border-white">{children}</h2>,
                     heading3: ({ children }) => <h3 className="w-max text-2xl lg:text-4xl pb-2 font-bold uppercase border-b border-white">{children}</h3>
                 }}
             />
-            <PrismicRichText
-                field={item.body}
+            <RichText
+                content={item.body}
                 components={{
                     paragraph: ({ children }) => <p className="pt-2">{children}</p>,
                 }}

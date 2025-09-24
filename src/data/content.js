@@ -79,3 +79,85 @@ export const footerContent = {
     { label: "Contact", href: "/contact" }
   ]
 }
+
+// Static slices per page (Prismic replacement)
+export const pageSlices = {
+  contact: [
+    {
+      slice_type: "rich_text",
+      variation: "default",
+      primary: {
+        heading: [{ type: "heading2", text: "Contactez-nous" }],
+        text_blocks: [
+          { text: [{ type: "paragraph", text: "Écrivez-nous à contact@gust.agency" }] },
+        ],
+      },
+      items: [],
+    },
+  ],
+  makeIt: [
+    {
+      slice_type: "rich_text",
+      variation: "default",
+      primary: {
+        heading: [{ type: "heading2", text: "Make It" }],
+        text_blocks: [
+          { text: [{ type: "paragraph", text: "Notre offre Make It." }] },
+        ],
+      },
+      items: [],
+    },
+  ],
+  open: [
+    {
+      slice_type: "rich_text",
+      variation: "default",
+      primary: {
+        heading: [{ type: "heading2", text: "Open" }],
+        text_blocks: [
+          { text: [{ type: "paragraph", text: "Notre page Open." }] },
+        ],
+      },
+      items: [],
+    },
+  ],
+  visualCreators: [
+    {
+      slice_type: "rich_text",
+      variation: "default",
+      primary: {
+        heading: [{ type: "heading2", text: "Visual Creators" }],
+        text_blocks: [
+          { text: [{ type: "paragraph", text: "Nos créateurs visuels." }] },
+        ],
+      },
+      items: [],
+    },
+  ],
+  legal: [
+    {
+      slice_type: "rich_text",
+      variation: "default",
+      primary: {
+        heading: [{ type: "heading2", text: "Mentions légales" }],
+        text_blocks: [
+          { text: [{ type: "paragraph", text: "Vos informations légales ici." }] },
+        ],
+      },
+      items: [],
+    },
+  ],
+  workDetail: [
+    {
+      slice_type: "rich_text",
+      variation: "default",
+      primary: {
+        heading: [{ type: "heading2", text: "Case study" }],
+        text_blocks: [
+          { text: [{ type: "paragraph", text: "Détail du projet." }] },
+        ],
+      },
+      items: [],
+    },
+  ],
+}

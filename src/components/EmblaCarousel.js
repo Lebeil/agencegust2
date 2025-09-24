@@ -1,9 +1,9 @@
 "use client"
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import AutoScroll from "embla-carousel-auto-scroll"
 import WorkItem from "./WorkItem"
-import { PrismicNextImage } from "@prismicio/next"
+import Image from "next/image"
 
 const EmblaCarousel = ({ slides, inverse, nextClick, prevClick }) => {
   const [hoveredItemIndex, setHoveredItemIndex] = useState(null)
@@ -61,10 +61,12 @@ const EmblaCarousel = ({ slides, inverse, nextClick, prevClick }) => {
             >
               {item.type === "image" && (
                 <figure className="max-w-24 md:max-w-36">
-                  <PrismicNextImage
+                  <Image
                     className="w-full"
-                    field={item.content}
-                    width={100}
+                    src={item.content?.url || "/public/images/placeholder.svg"}
+                    alt={item.content?.alt || ""}
+                    width={item.content?.dimensions?.width || 100}
+                    height={item.content?.dimensions?.height || 100}
                     priority
                   />
                 </figure>

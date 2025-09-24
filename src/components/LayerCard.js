@@ -1,7 +1,7 @@
 'use client'
 import { useRef } from 'react'
 import { useTransform, motion, useScroll } from 'framer-motion'
-import { PrismicRichText } from '@prismicio/react'
+import RichText from '@/components/RichText'
 
 const LayerCard = ({ i, item, progress, range, targetScale, disableStack }) => {
   const container = useRef(null)
@@ -40,8 +40,8 @@ const LayerCard = ({ i, item, progress, range, targetScale, disableStack }) => {
             lg:m-[var(--tw-12)] pb-[var(--tw-4)]
           `}
         >
-          <PrismicRichText
-            field={item.heading}
+          <RichText
+            content={item.heading}
             components={{
               heading2: ({ children }) => <h2 className="text-4xl md:text-6xl uppercase font-jemina max-w-xl">{children}</h2>,
               heading3: ({ children }) => <h3 className="text-4xl md:text-6xl uppercase font-jemina max-w-xl">{children}</h3>
@@ -53,8 +53,8 @@ const LayerCard = ({ i, item, progress, range, targetScale, disableStack }) => {
             lg:grid-cols-2 lg:gap-x-6 lg:mx-6 lg:pb-12
           `}
         >
-          <PrismicRichText
-            field={item.text}
+          <RichText
+            content={item.text}
             components={{
               paragraph: ({ children }) => <p className="mb-[var(--tw-4)] px-[var(--tw-6)] last-child:mb-0 lg:p-[var(--tw-6)] lg:bg-gradient-to-b from-white/20 to-transparent rounded-xl">{children}</p>,
               list: ({ children }) => <ul className="mb-[var(--tw-4)] px-[var(--tw-6)] last-child:mb-0 lg:p-[var(--tw-6)] lg:bg-gradient-to-b from-white/20 to-transparent rounded-xl">{children}</ul>,

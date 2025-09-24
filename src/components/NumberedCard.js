@@ -1,4 +1,4 @@
-import { PrismicRichText } from "@prismicio/react"
+import RichText from "@/components/RichText"
 
 const NumberedCard = ({ index, item }) => {
     const spreadStyle = item.spread ? "lg:col-span-4" : "lg:col-span-2"
@@ -16,15 +16,15 @@ const NumberedCard = ({ index, item }) => {
         >
             <div className={`text-6xl mb-2 font-bold opacity-20`}>0{index + 1}</div>
             <div className={``}>
-                <PrismicRichText
-                    field={item.heading}
+                <RichText
+                    content={item.heading}
                     components={{
                         heading2: ({ children }) => <h2 className="mb-4 text-2xl font-bold font-avenir uppercase">{children}</h2>,
                         heading3: ({ children }) => <h3 className="mb-4 text-2xl font-bold font-avenir uppercase">{children}</h3>
                     }}
                 />
-                <PrismicRichText
-                    field={item.body}
+                <RichText
+                    content={item.body}
                     components={{
                         paragraph: ({ children }) => <p className="max-w-lg">{children}</p>,
                         list: ({ children }) => <ul className="m-0 pl-4">{children}</ul>,
