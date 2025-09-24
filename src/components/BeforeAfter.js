@@ -1,5 +1,5 @@
 "use client"
-import { PrismicNextImage } from "@prismicio/next"
+import Image from "next/image"
 import { useState } from "react"
 
 export const BeforeAfter = ({ slice }) => {
@@ -24,8 +24,25 @@ export const BeforeAfter = ({ slice }) => {
         setIsDragging(false)
     }
 
-    const beforeMedia = slice.primary.media_1
-    const afterMedia = slice.primary.media_2
+    const beforeMedia = slice?.primary?.media_1 || []
+    const afterMedia = slice?.primary?.media_2 || []
+
+    const renderImage = (imgField) => {
+        const src = imgField?.url || ""
+        const width = Number(imgField?.width || imgField?.dimensions?.width) || 600
+        const height = Number(imgField?.height || imgField?.dimensions?.height) || 400
+        const alt = imgField?.alt || imgField?.text || ""
+        if (!src) return null
+        return (
+            <Image
+                src={src}
+                width={width}
+                height={height}
+                alt={alt}
+                className="w-full h-full"
+            />
+        )
+    }
 
     return (
         <div className="w-full flex justify-center" onMouseUp={handleMouseUp}>
@@ -36,7 +53,7 @@ export const BeforeAfter = ({ slice }) => {
             >
                 {beforeMedia && beforeMedia.length > 0 && (
                     <figure className="rounded-3xl overflow-hidden">
-                        {beforeMedia[0].video ? (
+                        {beforeMedia[0]?.video ? (
                             <video
                                 src={beforeMedia[0].video}
                                 playsInline
@@ -45,7 +62,7 @@ export const BeforeAfter = ({ slice }) => {
                                 loop
                             />
                         ) : (
-                            <PrismicNextImage field={beforeMedia[0].image} width={600} className="w-full h-full" />
+                            renderImage(beforeMedia[0]?.image)
                         )}
                     </figure>
                 )}
@@ -57,7 +74,7 @@ export const BeforeAfter = ({ slice }) => {
                     >
                         <figure className="rounded-3xl overflow-hidden">
 
-                            {afterMedia[0].video ? (
+                            {afterMedia[0]?.video ? (
                                 <video
                                     src={afterMedia[0].video}
                                     playsInline
@@ -66,7 +83,7 @@ export const BeforeAfter = ({ slice }) => {
                                     loop
                                 />
                             ) : (
-                                <PrismicNextImage field={afterMedia[0].image} width={600} className="w-full h-full" />
+                                renderImage(afterMedia[0]?.image)
                             )}
                         </figure>
                     </div>
