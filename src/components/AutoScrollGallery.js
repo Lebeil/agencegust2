@@ -111,6 +111,8 @@ export default function AutoScrollGallery({
   // Animation avec requestAnimationFrame pour défilement ultra-smooth
   useEffect(() => {
     if (!enableAutoScroll) return; // pas d'auto-scroll
+    if (isHovered) return; // Arrêter l'animation au survol
+    
     const animate = (currentTime) => {
       if (lastTimeRef.current === 0) {
         lastTimeRef.current = currentTime;

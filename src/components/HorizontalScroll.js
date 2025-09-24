@@ -1,11 +1,12 @@
 // components/HorizontalScroll.js
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import Hero from "@/components/Hero";
 import ThreeColumnsAccordion from "@/components/ThreeColumnsAccordion";
+import AutoScrollGallery from "@/components/AutoScrollGallery";
 import { homePageContent } from "@/data/content";
 
 // Enregistrement du plugin ScrollTrigger
@@ -14,6 +15,58 @@ gsap.registerPlugin(ScrollTrigger);
 const HorizontalScroll = () => {
   const containerRef = useRef(null);
   const sectionsRef = useRef(null);
+
+  // Données des projets correspondant exactement à la maquette visible
+  const projectsData = [
+    { 
+      title: "Les secrets de Loly", 
+      client: "OPI", 
+      video: "/assets/media/cases_studies/Les secrets de loly.mp4",
+      poster: "/assets/media/cases_studies/cover/LSL_cover 2.png",
+      tags: ["Production"], 
+      textColor: "text-white" 
+    },
+    { 
+      title: "La Biche-Renard", 
+      client: "LA BICHE-RENARD", 
+      video: "/assets/media/cases_studies/La biche Renard.mov",
+      poster: "/assets/media/cases_studies/cover/LA BICHEv.png",
+      tags: ["Influence", "Production"], 
+      textColor: "text-white" 
+    },
+    { 
+      title: "Vertbaudet", 
+      client: "VERTBAUDET", 
+      video: "/assets/media/cases_studies/Verbaudet-cartable.mp4",
+      poster: "/assets/media/cases_studies/cover/VERTBAUDET_cover 2.png",
+      tags: ["Production", "Social média"], 
+      textColor: "text-white" 
+    },
+    { 
+      title: "Vestiaire Collective", 
+      client: "VESTIAIRE COLLECTIVE", 
+      video: "/assets/media/cases_studies/Vestiaire_Collective.mp4",
+      poster: "/assets/media/cases_studies/cover/VestiaireCo_cover 2.png",
+      tags: ["Influence"], 
+      textColor: "text-white" 
+    },
+    { 
+      title: "Showroom Privé", 
+      client: "SHOWROOM PRIVÉ", 
+      video: "/assets/media/cases_studies/ShowroomBy-Faustine.mp4",
+      poster: "/assets/media/cases_studies/cover/Faustine_cover 2.png",
+      tags: ["Célébrité", "Production"], 
+      textColor: "text-white" 
+    },
+    { 
+      title: "Service Civique Solidarité Seniors", 
+      client: "WĀJ", 
+      video: "/assets/media/cases_studies/Service civique solidarité.mp4",
+      poster: "/assets/media/cases_studies/cover/SC2S_cover 2.png",
+      tags: ["Influence", "Social média"], 
+      textColor: "text-white" 
+    }
+  ];
 
   useEffect(() => {
     const sections = sectionsRef.current;
@@ -42,7 +95,7 @@ const HorizontalScroll = () => {
       <div
         ref={sectionsRef}
         style={{
-          width: '200vw', // 2 sections de 100vw chacune
+          width: '300vw', // 3 sections de 100vw chacune
           height: '100vh',
           display: 'flex',
           flexWrap: 'nowrap',
@@ -54,6 +107,9 @@ const HorizontalScroll = () => {
         </section>
         <section className="section">
           <ThreeColumnsAccordion />
+        </section>
+        <section className="section">
+          <ProjectsSection projectsData={projectsData} />
         </section>
       </div>
 
@@ -75,5 +131,74 @@ const HorizontalScroll = () => {
     </div>
   );
 };
+
+// Composant pour la section "Nos projets" avec layout fidèle à la maquette
+function ProjectsSection({ projectsData }) {
+  const [galleryApi, setGalleryApi] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handlePrevious = () => {
+    if (galleryApi) {
+      galleryApi.prev();
+    }
+  };
+
+  const handleNext = () => {
+    if (galleryApi) {
+      galleryApi.next();
+    }
+  };
+
+  return (
+    <div 
+      className="w-full h-full flex flex-col justify-center items-center px-8"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Header avec titre à gauche et flèches à droite */}
+      <div className="w-full flex justify-between items-center mb-12">
+        <h2 className="text-white text-2xl md:text-3xl font-semibold">
+          Nos projets
+        </h2>
+        
+        {/* Flèches de navigation circulaires */}
+        <div className="flex gap-3">
+          <button
+            onClick={handlePrevious}
+            className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:border-white/40 hover:bg-white/5 transition-all duration-300"
+            aria-label="Projet précédent"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M15 18l-6-6 6-6"/>
+            </svg>
+          </button>
+          
+          <button
+            onClick={handleNext}
+            className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:border-white/40 hover:bg-white/5 transition-all duration-300"
+            aria-label="Projet suivant"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Galerie de projets - prend toute la largeur */}
+      <div className="w-full">
+        <AutoScrollGallery 
+          images={projectsData}
+          enableAutoScroll={true}
+          scrollable={true}
+          visibleImages={4}
+          onApiReady={setGalleryApi}
+          duplicate={true}
+          autoScrollSpeed={0.02}
+        />
+      </div>
+    </div>
+  );
+}
 
 export default HorizontalScroll;
