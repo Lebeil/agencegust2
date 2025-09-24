@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 /**
  * Bandeau défilant de logos de clients
@@ -10,6 +10,22 @@ import { useEffect, useState } from "react";
 export default function LogoBanner() {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollTime, setLastScrollTime] = useState(0);
+
+  // Liste des logos clients avec leurs images - chemins vérifiés
+  const logos = useMemo(() => [
+    { name: "Emma", image: "/images/emma.svg" },
+    { name: "Vestiaire Collective", image: "/images/vestiaire_collective.svg" },
+    { name: "Vertbaudet", image: "/images/verbaudet.svg" },
+    { name: "Nestlé", image: "/images/Nestlé.svg" },
+    { name: "CyberGhost", image: "/images/cyberghost_vpn.svg" },
+    { name: "Quick", image: "/images/quick.svg" },
+    { name: "Parions Sport", image: "/images/parions_sport.svg" },
+    { name: "Orange", image: "/images/orange_logo.svg" },
+    { name: "Coca-Cola", image: "/images/coca_cola.svg" },
+    { name: "NIVEA", image: "/images/NIVEA.svg" },
+    { name: "O.P.I", image: "/images/OPI.svg" },
+    { name: "Showroom Privé", image: "/images/showroom_privé.svg" }
+  ], []);
 
   useEffect(() => {
     let animationId;
@@ -105,26 +121,10 @@ export default function LogoBanner() {
         img.src = logo.image;
       });
     }
-  }, [isVisible]);
+  }, [isVisible, logos]);
 
-  // Liste des logos clients avec leurs images - chemins vérifiés
-  const logos = [
-    { name: "Emma", image: "/images/emma.svg" },
-    { name: "Vestiaire Collective", image: "/images/vestiaire_collective.svg" },
-    { name: "Vertbaudet", image: "/images/verbaudet.svg" },
-    { name: "Nestlé", image: "/images/Nestlé.svg" },
-    { name: "CyberGhost", image: "/images/cyberghost_vpn.svg" },
-    { name: "Quick", image: "/images/quick.svg" },
-    { name: "Parions Sport", image: "/images/parions_sport.svg" },
-    { name: "Orange", image: "/images/orange_logo.svg" },
-    { name: "Coca-Cola", image: "/images/coca_cola.svg" },
-    { name: "NIVEA", image: "/images/NIVEA.svg" },
-    { name: "O.P.I", image: "/images/OPI.svg" },
-    { name: "Showroom Privé", image: "/images/showroom_privé.svg" }
-  ];
-
-  // Dupliquer les logos pour un défilement continu (au moins 3 fois pour éviter les coupures)
-  const duplicatedLogos = [...logos, ...logos, ...logos];
+  // Dupliquer les logos pour un défilement continu (6 fois pour une boucle parfaite)
+  const duplicatedLogos = [...logos, ...logos, ...logos, ...logos, ...logos, ...logos];
 
   if (!isVisible) {
     return null; // Ne rien rendre si pas visible
@@ -132,10 +132,10 @@ export default function LogoBanner() {
 
   return (
     <div
-      className="fixed bottom-10 w-full py-4 overflow-visible z-10 transition-opacity duration-200"
+      className="fixed bottom-10 w-full py-4 overflow-hidden z-10 transition-opacity duration-200"
       style={{
-        maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.1) 8%, rgba(0,0,0,0.8) 12%, black 15%, black 85%, rgba(0,0,0,0.8) 88%, rgba(0,0,0,0.1) 92%, transparent 100%)',
-        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.1) 8%, rgba(0,0,0,0.8) 12%, black 15%, black 85%, rgba(0,0,0,0.8) 88%, rgba(0,0,0,0.1) 92%, transparent 100%)',
+        maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 5%, rgba(0,0,0,0.9) 8%, black 10%, black 90%, rgba(0,0,0,0.9) 92%, rgba(0,0,0,0.3) 95%, transparent 100%)',
+        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 5%, rgba(0,0,0,0.9) 8%, black 10%, black 90%, rgba(0,0,0,0.9) 92%, rgba(0,0,0,0.3) 95%, transparent 100%)',
         opacity: isVisible ? 1 : 0,
         willChange: 'opacity'
       }}
@@ -144,14 +144,14 @@ export default function LogoBanner() {
         {duplicatedLogos.map((logo, index) => (
           <div
             key={`${logo.name}-${index}`}
-            className="flex items-center justify-center min-w-[180px] logo-banner-item"
+            className="flex items-center justify-center w-[140px] logo-banner-item"
           >
-            <div className="relative w-80 h-24 flex items-center justify-center">
+            <div className="relative w-32 h-20 flex items-center justify-center">
               <Image
                 src={logo.image}
                 alt={logo.name}
                 fill
-                sizes="160px"
+                sizes="128px"
                 style={{ objectFit: 'contain' }}
                 className="opacity-100 transition-opacity duration-200 logo-banner-image"
                 priority={index < logos.length} // Priorité pour les premiers logos
@@ -166,10 +166,6 @@ export default function LogoBanner() {
           </div>
         ))}
       </div>
-      
-      {/* Dégradés de renfort pour un fondu ultra-doux */}
-      <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-blue-900 via-blue-900/40 to-transparent pointer-events-none z-10"></div>
-      <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-blue-900 via-blue-900/40 to-transparent pointer-events-none z-10"></div>
     </div>
   );
 }

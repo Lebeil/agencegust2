@@ -1,12 +1,11 @@
 
 "use client"
-import React, { useRef, useEffect, useState, useLayoutEffect } from 'react'
-import { useGLTF, Text, Html, useScroll, useVideoTexture, ScrollControls, Plane, shaderMaterial } from '@react-three/drei'
+import { useRef, useEffect, useLayoutEffect } from 'react'
+import { useGLTF, Text, useScroll, useVideoTexture, Plane, shaderMaterial } from '@react-three/drei'
 import gsap from "gsap"
-import { useFrame, useThree, useLoader, extend } from '@react-three/fiber'
-import { TextureLoader } from "three"
+import { useFrame, useThree, extend } from '@react-three/fiber'
 import * as THREE from 'three'
-import { pastelBlue, gold, midnightBlue, matteGlass, matteSilver, soapyGlass } from './materials'
+import { matteSilver } from './materials'
 
 // Shader pour écran avec coins arrondis
 const RoundedScreenMaterial = shaderMaterial(

@@ -15,14 +15,10 @@ export function Layout({ children }) {
   const isHomePage = pathname === '/' || pathname === '/fr' || pathname === '/en'
 
   useEffect(() => {
-    // Ajouter la classe horizontal-scroll au body pour la page d'accueil
-    if (isHomePage) {
-      document.body.classList.add('horizontal-scroll')
-    } else {
-      document.body.classList.remove('horizontal-scroll')
-    }
+    // Supprimer la classe horizontal-scroll du body car GSAP gère maintenant le scroll
+    document.body.classList.remove('horizontal-scroll')
     window.scrollTo(0, 0)
-  }, [pathname, isHomePage])
+  }, [pathname])
 
   return (
     <>
@@ -35,27 +31,7 @@ export function Layout({ children }) {
       <Navbar />
 
       <Template>
-        {isHomePage ? (
-          // Pour la page d'accueil, utiliser une structure différente
-          <div className="relative w-full h-screen overflow-visible">
-            <main className="h-full">
-              {children}
-            </main>
-          </div>
-        ) : (
-          // Pour les autres pages, utiliser la structure normale
-          <div className="relative w-full h-full overflow-hidden">
-            <main
-              className={`h-full ${pageType ? `main ${pageType}` : ""}${
-                pageType === "contact" ? " h-screen" : ""
-              }${
-                pageType === "work" || pageType === "contact" ? " pt-[var(--tw-64)]" : ""
-              }`}
-            >
-              {children}
-            </main>
-          </div>
-        )}
+        {children}
       </Template>
       {/* LogoBanner uniquement sur la page d'accueil */}
       {isHomePage && <LogoBanner />}

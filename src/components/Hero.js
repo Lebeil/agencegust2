@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import dynamic from 'next/dynamic';
 import MainHeroMobile from "@/components/MainHeroMobile";
 
@@ -38,12 +38,12 @@ const Hero = ({ content }) => {
   }, [isSceneLoaded, isDesktop]);
 
   return (
-    <section data-section="hero">
+    <section data-section="hero" className="w-full h-full">
       <div className="lg:hidden">
         <MainHeroMobile content={content} />
       </div>
 
-      <div className="hidden lg:block lg:h-full">
+      <div className="hidden lg:block w-full h-full">
         <Scene
           content={content}
           onLoaded={() => setIsSceneLoaded(true)}

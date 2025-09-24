@@ -7,11 +7,11 @@ import WorkItemInfo from "./WorkItemInfo"
 export default function WorkItem({ data }) {
   const [isHovered, setIsHovered] = useState(false)
   const previewRef = useRef(null)
-  const cover = data?.data?.cover || {}
-  const coverSrc = cover.url || ""
-  const coverAlt = cover.alt || "Cover image"
-  const coverWidth = Number(cover.width) || 500
-  const coverHeight = Number(cover.height) || 300
+  // Adapter à la structure actuelle des données
+  const coverSrc = data?.image || ""
+  const coverAlt = data?.title || "Cover image"
+  const coverWidth = 500
+  const coverHeight = 300
   const previewSrc = data?.data?.preview_video?.url || ""
 
   useEffect(() => {
@@ -66,7 +66,7 @@ export default function WorkItem({ data }) {
         </video>
       )}
 
-      <WorkItemInfo tags={data.tags} />
+      <WorkItemInfo tags={data.category ? [data.category] : []} />
     </Link>
   )
 }

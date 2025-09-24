@@ -3,17 +3,19 @@ import { useState, useMemo } from 'react'
 import WorkItem from "@/components/WorkItem"
 import Filters from './Filters'
 
-const WorkGrid = ({ allWork }) => {
+const WorkGrid = ({ projects = [] }) => {
     const [selectedTags, setSelectedTags] = useState([])
     const [selectedSecteurs, setSelectedSecteurs] = useState([])
 
     const tagsArray = useMemo(() => {
-        return allWork.map(item => item.tags).flat().filter((value, index, self) => self.indexOf(value) === index)
-    }, [allWork])
+        // Adapter à la structure actuelle - utiliser category comme tag temporaire
+        return projects.map(item => item.category || '').filter(category => category).filter((value, index, self) => self.indexOf(value) === index)
+    }, [projects])
 
     const secteursArray = useMemo(() => {
-        return allWork.map(item => item.data.secteurs.map(secteur => secteur.label)).flat().filter((value, index, self) => self.indexOf(value) === index)
-    }, [allWork])
+        // Pour l'instant, retourner un tableau vide puisque secteurs n'existe pas dans les données actuelles
+        return []
+    }, [projects])
 
     const handleTagClick = (tag) => {
         setSelectedTags(prevSelected => {
@@ -36,14 +38,14 @@ const WorkGrid = ({ allWork }) => {
     }
 
     const filteredWork = useMemo(() => {
-        return allWork.filter(item => {
-            const hasMatchingTag = selectedTags.length === 0 || item.tags.some(tag => selectedTags.includes(tag))
-            const hasMatchingSecteur = selectedSecteurs.length === 0 || item.data.secteurs.some(secteur => selectedSecteurs.includes(secteur.label))
+        return projects.filter(item => {
+            const hasMatchingTag = selectedTags.length === 0 || selectedTags.includes(item.category)
+            const hasMatchingSecteur = selectedSecteurs.length === 0 // Toujours vrai car pas de secteurs pour l'instant
 
             return hasMatchingTag && hasMatchingSecteur
         })
 
-    }, [allWork, selectedTags, selectedSecteurs])
+    }, [projects, selectedTags, selectedSecteurs])
 
     return (
         <section className="work_overview">

@@ -118,14 +118,14 @@ export default function ThreeColumnsAccordion({ progress = 0 }) {
       >
         <div className="flex items-center gap-12 md:gap-16 opacity-80 hover:opacity-100 transition-opacity duration-500">
           {[
-            "/images/showroom privé.svg",
+            "/images/showroom_privé.svg",
             "/images/Nestlé.svg",
-            "/images/orange logo.svg",
-            "/images/parions sport.svg",
-            "/images/coca cola.svg",
+            "/images/orange_logo.svg",
+            "/images/parions_sport.svg",
+            "/images/coca_cola.svg",
             "/images/verbaudet.svg",
-            "/images/vestiaire collective.svg",
-            "/images/cyberghost vpn.svg"
+            "/images/vestiaire_collective.svg",
+            "/images/cyberghost_vpn.svg"
           ].map((logo, i) => (
             <img
               key={i}

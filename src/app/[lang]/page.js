@@ -1,8 +1,5 @@
 import { Layout } from "@/components/Layout"
-import { homePageContent } from "@/data/content"
-import Hero from "@/components/Hero"
-import ThreeColumnsAccordion from "@/components/ThreeColumnsAccordion"
-import HorizontalScrollIndicator from "@/components/HorizontalScrollIndicator"
+import HorizontalScroll from "@/components/HorizontalScroll"
 
 export async function generateMetadata({ params }) {
   const { lang } = params
@@ -23,22 +20,7 @@ export default async function Page({ params }) {
 
   return (
     <Layout>
-      {/* Conteneur principal avec scroll horizontal pour la page d'accueil */}
-      <div className="home-horizontal-scroll">
-        <div className="horizontal-scroll-container">
-          <div className="h-screen flex flex-col justify-start items-center -mt-16 overflow-hidden relative min-h-0">
-            <Hero content={homePageContent.hero} />
-          </div>
-
-          {/* Section des 3 colonnes - We think, We connect, We produce */}
-          <div className="h-screen w-full relative">
-            <ThreeColumnsAccordion />
-          </div>
-        </div>
-      </div>
-
-      {/* Indicateur de scroll horizontal */}
-      <HorizontalScrollIndicator totalSections={2} />
+      <HorizontalScroll />
     </Layout>
   )
 }
