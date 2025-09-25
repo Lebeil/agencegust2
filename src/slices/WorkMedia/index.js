@@ -1,6 +1,5 @@
 "use client"
 import Image from "next/image";
-import { PrismicNextImage } from "@prismicio/next";
 import NumberedCard from "@/components/NumberedCard";
 import ResultCard from "@/components/ResultCard";
 
@@ -48,7 +47,14 @@ const WorkMedia = ({ slice }) => {
                       <source src={item.video} type="video/mp4" />
                     </video>
                   ) : (
-                    <PrismicNextImage field={item.image} />
+                    item?.image?.url ? (
+                      <Image
+                        src={item.image.url}
+                        alt={item.image.alt || ""}
+                        width={Number(item.image.width || item.image.dimensions?.width) || 800}
+                        height={Number(item.image.height || item.image.dimensions?.height) || 600}
+                      />
+                    ) : null
                   )}
                 </figure>
               ))}

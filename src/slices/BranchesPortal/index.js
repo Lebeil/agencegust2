@@ -1,7 +1,7 @@
 "use client"
 import SliceHeading from "@/components/SliceHeading";
-import { PrismicRichText } from "@prismicio/react";
-import { PrismicNextImage } from "@prismicio/next";
+import RichText from "@/components/RichText";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
@@ -84,10 +84,15 @@ const BranchesPortal = ({ slice }) => {
 
                   {/* Image */}
                   <figure className="relative aspect-square flex justify-center items-center z-10 lg:w-full">
-                    <PrismicNextImage
-                      field={item.image}
-                      className="object-contain max-h-48"
-                    />
+                    {item?.image?.url && (
+                      <Image
+                        src={item.image.url}
+                        alt={item.image.alt || ""}
+                        width={Number(item.image.width || item.image.dimensions?.width) || 400}
+                        height={Number(item.image.height || item.image.dimensions?.height) || 400}
+                        className="object-contain max-h-48"
+                      />
+                    )}
                   </figure>
 
                   {/* Expanding Text Without Fixed Max Height */}
@@ -99,7 +104,7 @@ const BranchesPortal = ({ slice }) => {
                     lg:w-full
                   `}
                   >
-                    <PrismicRichText field={item.description} />
+                    <RichText content={item.description} />
 
                   </div>
                 </Link>

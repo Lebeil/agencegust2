@@ -1,5 +1,5 @@
 "use client"
-import { PrismicNextImage } from "@prismicio/next"
+import Image from "next/image"
 import { useState } from "react"
 
 export const BeforeAfter = ({ slice }) => {
@@ -45,7 +45,7 @@ export const BeforeAfter = ({ slice }) => {
                                 loop
                             />
                         ) : (
-                            <PrismicNextImage field={beforeMedia[0].image} width={600} className="w-full h-full" />
+                            <Image src={beforeMedia[0]?.image?.url || ""} alt={beforeMedia[0]?.image?.alt || ""} width={Number(beforeMedia[0]?.image?.width || 600)} height={Number(beforeMedia[0]?.image?.height || 400)} className="w-full h-full" />
                         )}
                     </figure>
                 )}
@@ -66,7 +66,7 @@ export const BeforeAfter = ({ slice }) => {
                                     loop
                                 />
                             ) : (
-                                <PrismicNextImage field={afterMedia[0].image} width={600} className="w-full h-full" />
+                                <Image src={afterMedia[0]?.image?.url || ""} alt={afterMedia[0]?.image?.alt || ""} width={Number(afterMedia[0]?.image?.width || 600)} height={Number(afterMedia[0]?.image?.height || 400)} className="w-full h-full" />
                             )}
                         </figure>
                     </div>
